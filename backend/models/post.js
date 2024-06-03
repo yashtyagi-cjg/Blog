@@ -21,4 +21,4 @@ Posts.virtual('comments', {
     foreignField: 'postId'
 })
 
-exports.module = mongoose.model('Post', Posts)
+module.exports = mongoose.model('Post', Posts)
