@@ -1,6 +1,7 @@
 import App from "./../App.jsx"
 import Login from "./../Auth/Login.jsx"
-import Dashboard from "../home/Dashboard.jsx";
+import Dashboard from "../Home/Dashboard.jsx";
+import SpecificPost from "../Posts/SpecificPost.jsx";
 
 const routes = [
     {
@@ -8,7 +9,7 @@ const routes = [
         element: <App/>,
         children: [
             {
-                path: "/",
+                path: "login",
                 element: <Login/>
             },
             // {
@@ -21,7 +22,11 @@ const routes = [
             // },
             {
                 path: "dashboard",
-                element: <Dashboard/>
+                element: <Dashboard/>,
+            },
+            {
+                path: "posts/:postId",
+                element: <SpecificPost/>
             }
         ]
     }

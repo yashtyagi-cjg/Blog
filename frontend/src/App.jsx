@@ -1,4 +1,4 @@
-import { AppShell, Burger, Group, Skeleton } from '@mantine/core';
+import { AppShell, Burger, Button, Group, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Outlet } from 'react-router-dom';
 
@@ -17,10 +17,20 @@ function App() {
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
-          <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
-          <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
+        <Group h="100%" px="md" style={{display:"flex", justifyContent: "space-between"}}>
+          <div> 
+            <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
+            <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
+          </div>
+
+          <div>
+            <Button variant='filled'>Log Out</Button>
+          </div>
+          
         </Group>
+       
+          
+        
       </AppShell.Header>
       <AppShell.Navbar p="md">
         Navbar
