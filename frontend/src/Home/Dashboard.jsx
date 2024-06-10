@@ -1,4 +1,4 @@
-import {Card, Container, Text, Group, Button, Modal, SimpleGrid, Loader, Center, Flex, Input, TypographyStylesProvider } from '@mantine/core'
+import {Card, Container, Text, Group, Button, Modal, SimpleGrid, Loader, Center, Flex, Input, TypographyStylesProvider} from '@mantine/core'
 import { useEffect, useState} from 'react';
 import {IconEdit, IconTrash, IconRefresh} from '@tabler/icons-react';
 import {DateTime} from 'luxon';

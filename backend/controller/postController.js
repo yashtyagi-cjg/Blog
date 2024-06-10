@@ -63,11 +63,17 @@ exports.getPostById = asyncHandler(
 //Create Posts
 exports.createPost = asyncHandler(
     async(req, res, next)=>{
-        const error = validationResult(req);
-        //authorId
-        if(!error){
-            return res.status(400).json({message: "Bad Request"});
-        }
+        // const error = validationResult(req);
+        // //authorId
+        // if(!error){
+        //     return res.status(400).json({message: "Bad Request"});
+        // }
+        console.log("Request to create POST")
+        console.log("Request Headers:", JSON.stringify(req.headers, null, 2));
+        console.log("Request Body:", JSON.stringify(req.body, null, 2));
+        console.log("Request Query Params:", JSON.stringify(req.query, null, 2));
+        console.log("Request Params:", JSON.stringify(req.params, null, 2));
+
 
         const post = new Post({
             heading: req.body.heading,
@@ -76,11 +82,12 @@ exports.createPost = asyncHandler(
         })
 
         await post.save().catch((err)=>{
-            console.log(err);
+            console.log(`ERROR while createing post: ${err}`);
+
             return res.status(500).json({message: "Post not Created"});
         })
 
-        res.send(200).json({message: "Post created"});
+        res.status(200).json({message: "Post created"});
     }
 )
 

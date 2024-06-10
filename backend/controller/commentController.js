@@ -12,10 +12,9 @@ exports.getCommentsForPost = asyncHandler(
         return {
             authorId: {
                 name: comment.authorId.name,
-                authorId: comment.authorId._id,
                 username: comment.authorId.username,
             },
-            ...comment
+            comment: comment
         }})
 
         console.log(comments)
