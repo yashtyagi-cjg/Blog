@@ -85,6 +85,7 @@ function SpecificPost(){
     const [commentData, setCommentData] = useState([]);
     const [commentContent, setCommentContent] = useState('');
     const [refreshComments, setRefreshComments] = useState(true);
+    const [editComment, setEditComment] = useState(false);
 
     //Fetching comments associated with this post
     useEffect(()=>{
@@ -147,6 +148,32 @@ function SpecificPost(){
         }
     }
     
+    async function updateComment(commentId){
+        try{
+            // console.log('1111111',commentData[0].comment.comment);
+            const data = {
+                comment: commentContent,
+            }
+
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/comments/${commentId}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                }
+            )
+            if (!response.ok){
+                console.log('HTTP ERROR: ', response.status, response.statusText);
+            }
+
+            await setRefreshComments(!refreshComments);
+            await setEditComment(!editComment);
+        }catch(err){
+            console.log(err);
+        }
+    }
     return (
         <>
             <Button variant='transparent' mb='sm' onClick={() => {
@@ -222,10 +249,11 @@ function SpecificPost(){
                 </Button>
             </Group>
     
-            <Flex align='center' direction='column' mt='md'>
+            <Flex align='center' justify='center'  direction='column' mt='md'>
                 <Divider w='60%' mb='md' />
                 {commentData && commentData.map((data) => (
-                    <Card key={data._id} shadow="xs" padding='xs' ms='md' w='60%' mb='sm' radius='md' withBorder>
+                    <Container key={data.comment._id}  w='100%'>
+                    <Card key={data.comment._id} shadow="xs" padding='xs' ms='md' w='60%' mb='sm' radius='md' withBorder>
                         <TypographyStylesProvider size="sm" c="dimmed" mt='sm'>
                             <div
                                 dangerouslySetInnerHTML={{ __html: data.comment.comment }}
@@ -243,7 +271,10 @@ function SpecificPost(){
                             </Group>
     
                             <Group>
-                                <Button variant='subtle' onClick={async () => { }}>
+                                <Button variant='subtle' onClick={async () => {
+                                    await setCommentContent(data.comment.comment);
+                                    setEditComment(!editComment);
+                                }}>
                                     <IconEdit />
                                 </Button>
                                 <Button variant='subtle' onClick={() => {deleteComment(data.comment._id)}}>
@@ -252,6 +283,19 @@ function SpecificPost(){
                             </Group>
                         </Flex>
                     </Card>
+                    {editComment && 
+                        <Container w='80%'  direction='column' align='center'>
+                            <TextEditor content={commentContent} setContent={setCommentContent}/>
+                            <Button variant='transparent' size='sm'
+                            onClick={()=>{
+                                updateComment(data.comment._id);
+                            }}> Update Comment</Button>
+                            <Button variant='transparent' color='red' onClick={()=>{
+                                setEditComment(!editComment);
+                            }}>Cancel</Button>
+                        </Container>
+                    }
+                    </Container>
                 ))}
             </Flex>
         </>
